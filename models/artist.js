@@ -1,25 +1,26 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-var PetSchema = new Schema({
+
+var ArtistSchema = new Schema({
   name: {
     type: String,
     require: true
   },
-  species: {
+  instagram_link: {
     type: String,
-    require: true
+    require: false
   },
-  breed: {
+  facebook_link: {
     type: String,
-    require: true
+    require: false
   },
-  photo_url: {
+  website_link: {
     type: String,
     require: false
   }
 });
 
-var Pet = mongoose.model('Pet', PetSchema);
+var Artist = mongoose.model('Artist', ArtistSchema);
 
-module.exports = Pet;
+module.exports = Artist;

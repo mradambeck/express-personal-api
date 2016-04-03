@@ -7,4 +7,5 @@ mongoose.connect( process.env.MONGOLAB_URI ||
 
 //import person.js
 module.exports.Person = require("./person.js");
-module.exports.Pet = require(".pet.js");
+module.exports.Artist = require("./artist.js");
+module.exports.Artwork = require("./artwork.js");

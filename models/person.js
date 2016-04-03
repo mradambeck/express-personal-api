@@ -1,6 +1,10 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
+var PetSchema = new Schema({
+
+});
+
 var PersonSchema = new Schema({
   name: {
     type: String,
@@ -18,11 +22,10 @@ var PersonSchema = new Schema({
     type: String,
     require: true
   },
-  pets: {
-    type: Schema.Types.ObjectId,
-    ref: 'Pet',
+  pets: [{
+    type: String,
     require: false
-  }
+  }]
 
 });
 
