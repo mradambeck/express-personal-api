@@ -19,34 +19,34 @@ var db = require('./models');
 //     pets: []
 //   }
 // ];
-
-var artist_seed = [
-  {
-    name: "Deth P. Sun",
-    instagram_link: "https://www.instagram.com/dethpsun/",
-    facebook_link: "https://www.facebook.com/dethpsun/",
-    website_link: "http://dethpsun.com/",
-  },
-  {
-    name: "David Huffman",
-    website_link: "http://david-huffman.com/"
-  },
-  {
-    name: "Marci Washington",
-    instagram_link: "https://www.instagram.com/marciwash/",
-    facebook_link: "https://www.facebook.com/Marci-Washington-118217581571034/",
-    website_link: "http://www.marciwashington.com/",
-  },
-  {
-    name: "Mary Snowden",
-    facebook_link: "https://www.facebook.com/mary.snowden.18"
-  },
-  {
-    name: "Michael Beck",
-    facebook_link: "https://www.facebook.com/michael.beck.988373",
-    website_link: "http://www.michaelbeck.com/"
-  }
-];
+//
+// var artist_seed = [
+//   {
+//     name: "Deth P. Sun",
+//     instagram_link: "https://www.instagram.com/dethpsun/",
+//     facebook_link: "https://www.facebook.com/dethpsun/",
+//     website_link: "http://dethpsun.com/",
+//   },
+//   {
+//     name: "David Huffman",
+//     website_link: "http://david-huffman.com/"
+//   },
+//   {
+//     name: "Marci Washington",
+//     instagram_link: "https://www.instagram.com/marciwash/",
+//     facebook_link: "https://www.facebook.com/Marci-Washington-118217581571034/",
+//     website_link: "http://www.marciwashington.com/",
+//   },
+//   {
+//     name: "Mary Snowden",
+//     facebook_link: "https://www.facebook.com/mary.snowden.18"
+//   },
+//   {
+//     name: "Michael Beck",
+//     facebook_link: "https://www.facebook.com/michael.beck.988373",
+//     website_link: "http://www.michaelbeck.com/"
+//   }
+// ];
 
 
 

@@ -42,37 +42,42 @@ app.get('/', function homepage(req, res) {
 });
 
 
-/*
+/********************
  * JSON API Endpoints
- */
+ *******************/
 
 app.get('/api', function api_index(req, res) {
   // TODO: Document all your api endpoints below
   console.log("/api has been served");
   res.json({
-    message: "Welcome to my personal api! Here's what you need to know!",
+    message: "Welcome to Adam Beck's personal api! I have a profile for myself and a couple friends, as well as a database outlining my art collection.  Here's some info on endpoints and usage:",
     documentation_url: "https://github.com/mradambeck/express-personal-api/blob/master/README.md",
     base_url: "http://blueberry-pie-15876.herokuapp.com",
     endpoints: [
       {method: "GET", path: "/api", description: "Describes all available endpoints"},
       {method: "GET", path: "/api/people", description: "All the people in my database"},
-      {method: "GET", path: "/api/people/:id", description: "Grab a person via their _id", parameters: [
+      {method: "GET", path: "/api/people/:name", description: "Grab a person via their name", parameters: [
         { name: "Full name of the person", github_link: "Link to their Github profile",
-        github_profile_image: "Link to their github prfile image", current_city: "Where they currently live, (in City, State format)",
+        github_profile_image: "Link to their github profile image", current_city: "Where they currently live, (in City, State format)",
         pets: "Any pets that they have", _id: "Mongo assigned ID number", _v: "Version" }
       ]},
-      {method: "GET", path: "/api/people/57000c8ecd10852c17b18cc1", description: "My personal profile"},
+      {method: "GET", path: "/api/people/Adam%20Beck", description: "My personal profile"},
       {method: "GET", path: "/api/artists", description: "All the artists in my database"},
-      {method: "GET", path: "/api/artists/:id", description: "Pull a single artists in my database by their ID", parameters: [
+      {method: "GET", path: "/api/artists/:name", description: "Pull a single artists in my database by their name", parameters: [
         { name: "Full name of the artist", instagram_link: "Link to the artists instagram account",
-        facebook_link: "Link to the artists Facebook Account", website_link: "Link to the artists Website" }
+        facebook_link: "Link to the artists Facebook Account", website_link: "Link to the artists Website", _id: "Mongo assigned ID number",
+        _v: "Mongo assigned version number"}
       ]},
+      {method: "POST", path: "/api/artists", description: "Create new artist"},
       {method: "GET", path: "/api/artworks", description: "All the artpieces in my collection"},
       {method: "GET", path: "/api/artworks/:id", description: "Pull a single artwork", parameters: [
         { title: "Name of the artwork", artist: "Artist the created the artwork", year: "Year the artwork was created",
         medium: "Medium of the artwork (ex: 'Photograph, Oil on Canvas, Print, etc')", dimensions: "Dimensions of the artwork",
-        image_url: "URL linking to an image of the artwork"}
+        image_url: "URL linking to an image of the artwork", _id: "Mongo assigned ID number", _v: "Mongo assigned Version number"}
       ]},
+      {method: "POST", path: "/api/artworks", description: "Create new artwork - note, artist must be created first"},
+      {method: "PUT", path: "/api/artworks/:id", description: "Update an artwork that already exists in the database"},
+      {method: "DELETE", path: "/api/artworks/:id", description: "Remove an artwork from the database"}
     ]
   });
 });
@@ -88,10 +93,10 @@ app.get('/api/people', function (req, res) {
 });
 
 // get one Person
-app.get('/api/people/:id', function (req, res) {
-  var id = req.params.id;
-  console.log('/api/people/',id);
-  db.Person.findOne({_id: id }, function(err, data) {
+app.get('/api/people/:name', function (req, res) {
+  var nameToLookFor = req.params.name;
+  console.log('/api/people/', nameToLookFor);
+  db.Person.findOne({name: nameToLookFor }, function(err, data) {
     if (err) { return console.log("index error: " + err); }
     res.json(data);
   });
@@ -108,16 +113,75 @@ app.get('/api/artists', function (req, res) {
 });
 
 // get one Artist
-app.get('/api/artists/:id', function (req, res) {
-  var id = req.params.id;
-  console.log('/api/artists/',id);
-  db.Artist.findOne({_id: id }, function(err, artist) {
+app.get('/api/artists/:name', function (req, res) {
+  var nameToLookFor = req.params.name;
+  console.log('/api/artists/', nameToLookFor);
+  db.Artist.findOne({name: nameToLookFor }, function(err, artist) {
     if (err) { return console.log("index error: " + err); }
     res.json(artist);
   });
 });
 
+// get all Artworks
+app.get('/api/artworks', function (req, res) {
+  // send all persons as JSON response
+  db.Artwork.find(function(err, artworks){
+    if (err) { return console.log("index error: " + err); }
+    console.log("api/artists has been served");
+    res.json(artworks);
+  });
+});
 
+// get one Artwork
+app.get('/api/artworks/:id', function (req, res) {
+  var id = req.params.id;
+  console.log('/api/artworks/',id);
+  db.Artwork.findOne({_id: id }, function(err, artwork) {
+    if (err) { return console.log("index error: " + err); }
+    res.json(artwork);
+  });
+});
+
+// create new Artwork
+app.post('/api/artworks', function (req, res) {
+  // create new book with form data (`req.body`)
+  var newArtwork = new db.Artwork({
+    title: req.body.title,
+    year: req.body.year,
+    medium: req.body.medium,
+    dimensions: req.body.dimensions,
+    image_url: req.body.image_url
+  });
+  // find the author from req.body
+  db.Artist.findOne({artist: req.body.artist}, function(err, artist){
+    if (err) {
+      return console.log(err);
+    }
+    // add this artist to the artwork
+    newArtwork.artist = artist;
+
+    // save newBook to database
+    newArtwork.save(function(err, artwork){
+      if (err) {
+        return console.log("save error: " + err);
+      }
+      console.log("saved ", artwork.title);
+      // send back the artwork!
+      res.json(artwork);
+    });
+  });
+});
+
+// delete artwork
+app.delete('/api/artorks/:id', function (req, res) {
+  // get artwork id from url params (`req.params`)
+  console.log('artwork delete', req.params);
+  var artworkId = req.params.id;
+  // find the index of the book we want to remove
+  db.Artwork.findOneAndRemove({ _id: artworkId }, function (err, deletedArtwork) {
+    res.json(deletedArtwork);
+  });
+});
 
 /**********
  * SERVER *
