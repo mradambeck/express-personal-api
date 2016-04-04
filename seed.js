@@ -59,11 +59,11 @@ db.Artist.create(artist_seed, function(err, artist){
   process.exit(); // we're all done! Exit the program.
 });
 
-// db.Person.create(person_seed, function(err, person){
-//   if (err){
-//     return console.log("Error:", err);
-//   }
-//
-//   console.log("Created new person", person._id);
-//   process.exit(); // we're all done! Exit the program.
-// });
+db.Person.create(person_seed, function(err, person){
+  if (err){
+    return console.log("Error:", err);
+  }
+
+  console.log("Created new person", person._id);
+  process.exit(); // we're all done! Exit the program.
+});
