@@ -44,6 +44,16 @@ $(document).ready(function(){
     });
   });
 
+  // $('#artworkColumn').on('click', '.updateBtn', function() {
+  //   console.log('clicked delete button to', '/api/artworks/'+$(this).attr('data-id'));
+  //   $.ajax({
+  //     method: 'PUT',
+  //     url: '/api/artworks/'+$(this).attr('data-id'),
+  //     success: updateArtworkSuccess,
+  //     error: updateArtworkError
+  //   });
+  // });
+
   $('#newArtworkForm').on('submit', function(event) {
     event.preventDefault();
     console.log('new artwork serialized', $(this).serializeArray());
@@ -96,7 +106,7 @@ function deleteArtworkSuccess(json) {
   var artwork = json;
   console.log(json);
   var artworkId = artwork._id;
-  console.log('delete book', artworkId);
+  console.log('delete artwork', artworkId);
   // find the book with the correct ID and remove it from our allBooks array
   for(var index = 0; index < allArtworks.length; index++) {
     if(allArtworks[index]._id === artworkId) {

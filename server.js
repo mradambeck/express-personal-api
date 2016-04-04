@@ -184,7 +184,13 @@ app.post('/api/artworks', function (req, res) {
   });
 });
 
+app.put('/api/artworks/:id', function (req, res){
+  console.log('artwork update', req.params);
+  var artworkId = req.params.id;
+  db.Artwork.findOneAndUpdate({ _id: artworkId}, function (err, artwork){
 
+  });
+});
 
 
 // delete artwork

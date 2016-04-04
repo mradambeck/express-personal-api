@@ -72,22 +72,51 @@ var artist_seed = [
   }
 ];
 
+db.Artist.remove({}, function(err, artists){
+  if(err) {
+    console.log('Error occurred in removing artists', err);
+  } else {
+    console.log('removed all artists');
 
-
-db.Artist.create(artist_seed, function(err, artist){
-  if (err){
-    return console.log("Error:", err);
+    // create new records based on the array books_list
+    db.Artist.create(artist_seed, function(err, artists){
+      if (err) { return console.log('err', err); }
+      console.log("created", artists.length, "artists");
+      process.exit();
+    });
   }
-
-  console.log("Created new Artist", artist._id);
-  process.exit(); // we're all done! Exit the program.
 });
 
-db.Person.create(person_seed, function(err, person){
-  if (err){
-    return console.log("Error:", err);
-  }
+db.Person.remove({}, function(err, people){
+  if(err) {
+    console.log('Error occurred in removing people', err);
+  } else {
+    console.log('removed all people');
 
-  console.log("Created new person", person._id);
-  process.exit(); // we're all done! Exit the program.
+    // create new records based on the array books_list
+    db.People.create(person_seed, function(err, people){
+      if (err) { return console.log('err', err); }
+      console.log("created", people.length, "people");
+      process.exit();
+    });
+  }
 });
+
+//
+// db.Artist.create(artist_seed, function(err, artist){
+//   if (err){
+//     return console.log("Error:", err);
+//   }
+//
+//   console.log("Created new Artist", artist._id);
+//   process.exit(); // we're all done! Exit the program.
+// });
+//
+// db.Person.create(person_seed, function(err, person){
+//   if (err){
+//     return console.log("Error:", err);
+//   }
+//
+//   console.log("Created new person", person._id);
+//   process.exit(); // we're all done! Exit the program.
+// });
