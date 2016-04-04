@@ -94,7 +94,7 @@ db.Person.remove({}, function(err, people){
     console.log('removed all people');
 
     // create new records based on the array books_list
-    db.People.create(person_seed, function(err, people){
+    db.Person.create(person_seed, function(err, people){
       if (err) { return console.log('err', err); }
       console.log("created", people.length, "people");
       process.exit();
