@@ -45,6 +45,30 @@ var artist_seed = [
     name: "Michael Beck",
     facebook_link: "https://www.facebook.com/michael.beck.988373",
     website_link: "http://www.michaelbeck.com/"
+  },
+  {
+    name: "Gareth Lloyd",
+    facebook_link: "https://www.facebook.com/Thunderwear420"
+  },
+  {
+    name: "Rachel Kaye",
+    website_link: "http://rachelakaye.com/"
+  },
+  {
+    name: "Adam Beck",
+    facebook_link: "https://www.facebook.com/mr.adambeck",
+    instagram_link: "https://www.instagram.com/adambeck/"
+  },
+  {
+    name: "Ben Peterson",
+    instagram_link: "https://www.instagram.com/newertopographics"
+  },
+  {
+    name: "Manny Silva",
+  },
+  {
+    name: "Kelly Lynn Jones",
+    website: "http://www.littlepaperplanes.com"
   }
 ];
 
