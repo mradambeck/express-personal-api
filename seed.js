@@ -21,12 +21,12 @@ var person_seed = [
 ];
 
 var artist_seed = [
-  {
-    name: "Deth P. Sun",
-    instagram_link: "https://www.instagram.com/dethpsun/",
-    facebook_link: "https://www.facebook.com/dethpsun/",
-    website_link: "http://dethpsun.com/",
-  },
+  // {
+  //   name: "Deth P. Sun",
+  //   instagram_link: "https://www.instagram.com/dethpsun/",
+  //   facebook_link: "https://www.facebook.com/dethpsun/",
+  //   website_link: "http://dethpsun.com/",
+  // },
   {
     name: "David Huffman",
     website_link: "http://david-huffman.com/"
@@ -86,21 +86,21 @@ db.Artist.remove({}, function(err, artists){
     });
   }
 });
-
-db.Person.remove({}, function(err, people){
-  if(err) {
-    console.log('Error occurred in removing people', err);
-  } else {
-    console.log('removed all people');
-
-    // create new records based on the array books_list
-    db.Person.create(person_seed, function(err, people){
-      if (err) { return console.log('err', err); }
-      console.log("created", people.length, "people");
-      process.exit();
-    });
-  }
-});
+//
+// db.Person.remove({}, function(err, people){
+//   if(err) {
+//     console.log('Error occurred in removing people', err);
+//   } else {
+//     console.log('removed all people');
+//
+//     // create new records based on the array books_list
+//     db.Person.create(person_seed, function(err, people){
+//       if (err) { return console.log('err', err); }
+//       console.log("created", people.length, "people");
+//       process.exit();
+//     });
+//   }
+// });
 
 //
 // db.Artist.create(artist_seed, function(err, artist){
