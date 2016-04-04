@@ -1,10 +1,25 @@
 body {
   color: #333;
   font-family: Helvetica, Arial, sans-serif;
-  background-color: skyblue; /* Sanity Check! */
+  background-color: #cfcfcf;
+}
+
+button {
+  margin-top: 10px;
 }
 
 h1 {
-  margin-top: 100px;
   text-align: center;
 }
+
+hr {
+  border-color: black;
+}
+
+img {
+  width: 100%;
+}
+
+.form-group {
+  margin-top: 10px;
+};

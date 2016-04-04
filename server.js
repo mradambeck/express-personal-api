@@ -55,13 +55,13 @@ app.get('/api', function api_index(req, res) {
     base_url: "http://blueberry-pie-15876.herokuapp.com",
     endpoints: [
       {method: "GET", path: "/api", description: "Describes all available endpoints"},
-      {method: "GET", path: "/api/people", description: "All the people in my database"},
-      {method: "GET", path: "/api/people/:name", description: "Grab a person via their name", parameters: [
+      {method: "GET", path: "/api/profile", description: "All the people in my database"},
+      {method: "GET", path: "/api/profile/:name", description: "Grab a person via their name", parameters: [
         { name: "Full name of the person", github_link: "Link to their Github profile",
         github_profile_image: "Link to their github profile image", current_city: "Where they currently live, (in City, State format)",
         pets: "Any pets that they have", _id: "Mongo assigned ID number", _v: "Version" }
       ]},
-      {method: "GET", path: "/api/people/Adam%20Beck", description: "My personal profile"},
+      {method: "GET", path: "/api/profile/Adam%20Beck", description: "My personal profile"},
       {method: "GET", path: "/api/artists", description: "All the artists in my database"},
       {method: "GET", path: "/api/artists/:name", description: "Pull a single artists in my database by their name", parameters: [
         { name: "Full name of the artist", instagram_link: "Link to the artists instagram account",
@@ -83,19 +83,19 @@ app.get('/api', function api_index(req, res) {
 });
 
 // get all People
-app.get('/api/people', function (req, res) {
+app.get('/api/profile', function (req, res) {
   // send all persons as JSON response
   db.Person.find(function(err, people){
     if (err) { return console.log("index error: " + err); }
-    console.log("api/people has been served");
+    console.log("api/profile has been served");
     res.json(people);
   });
 });
 
 // get one Person
-app.get('/api/people/:name', function (req, res) {
+app.get('/api/profile/:name', function (req, res) {
   var nameToLookFor = req.params.name;
-  console.log('/api/people/', nameToLookFor);
+  console.log('/api/profile/', nameToLookFor);
   db.Person.findOne({name: nameToLookFor }, function(err, data) {
     if (err) { return console.log("index error: " + err); }
     res.json(data);
@@ -122,13 +122,23 @@ app.get('/api/artists/:name', function (req, res) {
   });
 });
 
+// create new Artist
+app.post('/api/artists', function (req, res) {
+  // create new artist with form data (`req.body`)
+  console.log('Create Artist', req.body);
+  var newArtist = new db.Artist(req.body);
+  newArtist.save(function handleDBArtistSaved(err, savedArtist) {
+    res.json(savedArtist);
+  });
+});
+
 // get all Artworks
 app.get('/api/artworks', function (req, res) {
-  // send all persons as JSON response
-  db.Artwork.find(function(err, artworks){
-    if (err) { return console.log("index error: " + err); }
-    console.log("api/artists has been served");
-    res.json(artworks);
+  // send all books as JSON response, add artist
+  db.Artwork.find().populate('artist')
+    .exec(function(err, artworks) {
+      if (err) { return console.log("index error: " + err); }
+      res.json(artworks);
   });
 });
 
@@ -152,13 +162,15 @@ app.post('/api/artworks', function (req, res) {
     dimensions: req.body.dimensions,
     image_url: req.body.image_url
   });
-  // find the author from req.body
-  db.Artist.findOne({artist: req.body.artist}, function(err, artist){
+  // find the artist from req.body
+  db.Artist.findOne({name: req.body.artist}, function(err, artist){
     if (err) {
       return console.log(err);
     }
     // add this artist to the artwork
+    console.log("artist: ", artist);
     newArtwork.artist = artist;
+    console.log("newArtwork.artist: ", newArtwork.artist);
 
     // save newBook to database
     newArtwork.save(function(err, artwork){
@@ -172,13 +184,18 @@ app.post('/api/artworks', function (req, res) {
   });
 });
 
+
+
+
 // delete artwork
-app.delete('/api/artorks/:id', function (req, res) {
-  // get artwork id from url params (`req.params`)
+app.delete('/api/artworks/:id', function (req, res) {
+  // get book id from url params (`req.params`)
   console.log('artwork delete', req.params);
   var artworkId = req.params.id;
   // find the index of the book we want to remove
-  db.Artwork.findOneAndRemove({ _id: artworkId }, function (err, deletedArtwork) {
+  db.Artwork.findOneAndRemove({ _id: artworkId })
+    .populate('artist.name')
+    .exec(function (err, deletedArtwork) {
     res.json(deletedArtwork);
   });
 });

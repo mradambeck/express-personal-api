@@ -18,12 +18,104 @@
     <script src="/scripts/app.js"></script>
   </head>
   <body>
-    <div class="container">
+    <div class="container-fluid">
       <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-          <h1>Under Construction</h1>
+        <div class="col-sm-3 col-sm-offset-4">
           <h4><a href="/api">Read My API Documentation</a></h4>
         </div>
+      </div>
+
+      <div class="row">
+
+        <div id="peopleColumn" class="col-sm-4 col-sm-offset-1">
+
+          <!-- Handlebars Profile Template -->
+          <script id="people-template" type="text/x-handlebars-template">
+            {{#each people}}
+            <div class="row">
+              <div class="col-xs-12"><img src="{{github_profile_image}}"</div>
+            </div>
+            <div class="row">
+              <div class="col-xs-12"><h1>{{name}}</h1></div>
+            </div>
+            <div class="row">
+              <div class="col-xs-11 col-xs-offset-1">Currently living in {{current_city}}, with my dogs, {{pets.[0]}} and {{pets.[1]}}.</div>
+            </div>
+            <div class="row">
+              <div class="col-xs-11 col-xs-offset-1">Find me on <a href="{{github_link}}">Github</a></div>
+            </div>
+            {{/each}}
+          </script>
+
+        </div>
+
+        <div class="col-sm-4 col-sm-offset-2">
+          <div class="row">
+            <div class="col-sm-11 col-offset-1">
+              <form class="form-inline" id="newArtworkForm">
+
+                <div class="form-group">
+                  <label for="artist">Artist:</label>
+                  <input type="text" class="form-control" name="artist" placeholder="Artist name">
+                </div>
+
+                <div class="form-group">
+                  <label for="title">Title:</label>
+                  <input type="text" class="form-control" name="title" placeholder="Artwork title">
+                </div>
+
+                <div class="form-group">
+                  <label for="year">Year:</label>
+                  <input type="text" class="form-control" name="year" placeholder="Year created">
+                </div>
+
+                <div class="form-group">
+                  <label for="medium">Medium:</label>
+                  <input type="text" class="form-control" name="medium" placeholder="Medium">
+                </div>
+
+                <div class="form-group">
+                  <label for="dimensions">Dimensions:</label>
+                  <input type="text" class="form-control" name="dimensions" placeholder="Dimensions">
+                </div>
+
+                <div class="form-group">
+                  <label for="image_url">Image URL:</label>
+                  <input type="text" class="form-control" name="image_url" placeholder="Image URL">
+                </div>
+
+                <button type="submit" class="btn btn-success">Add artwork</button>
+              </form>
+              <hr />
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-12">Here is a list of pieces from my art collection:</div>
+          </div>
+          <div class="col-xs-12" id="artworkColumn">
+
+            <!-- Handlebars artwork template -->
+            <script id="artwork-template" type="text/x-handlebars-template">
+              {{#each artwork}}
+              <div class="row">
+                <div class="col-xs-12"><strong>{{artist.name}}, <em>{{title}},</em> {{year}}</div></strong>
+              </div>
+              <div class="row">
+                <div class="col-xs-12">{{medium}}, {{dimensions}}</div>
+              </div>
+              <div class="row">
+                <div class="col-xs-12">
+                  <button type="button" name="button" class="deleteBtn btn btn-danger pull-right" data-id="{{_id}}">Delete</button>
+                </div>
+              </div>
+              <hr />
+              {{/each}}
+            </script>
+
+          </div>
+        </div>
+
+
       </div>
     </div>
   </body>
